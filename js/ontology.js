@@ -1,224 +1,624 @@
-/**
- *
- *  - activities
- *   breach_activity
- *   policy_change_activity
- *   give_consent
- *   withdraw_consent
- * 
- * - agents
- *   user
- *   first_party
- *   third_party
- *   data_protection_officer
- * 
- * - notification mechanisms
- *   on_website
- *   via_postal_mail
- *   via_sms
- *   on_service
- *   via_phone_call
- *   in_privacy_policy
- *   via_email
- * 
- * - consequences
- *   remove_compromised_information
- *   compensation
- *   breach_investigation
- *   policy_change_consequence
- *   no_service_restriction
- *   service_partial_restriction
- *   service_full_restriction
- * 
- * - causes
- *   force_majeur
- *   intentional
- *   unintentional
- *   other
- *   privacy_related
- *   non_privacy_related
- *   marge_acquisition
- * 
- * 
- */
-
 const META_LAYERS = [
 
-    // ACTIVITIES
+// Activities
     {
-        class: "breach_activity",
-        subclassOf: ["activity"],
+        class: "Activity",
+        subclassOf: [],
         attributeOf: [],
-    },
+    },  // Activity Thing
     {
-        class: "policy_change_activity",
-        subclassOf: ["control_activity", "activity"],
+        class: "DataBreachProcessing",
+        subclassOf: ["Activity"],
         attributeOf: [],
-    },
+    },  // DataBreachProcessing Activity
     {
-        class: "give_consent",
-        subclassOf: ["consent_activity", "control_activity", "activity"],
+        class: "DataActivity",
+        subclassOf: ["Activity"],
         attributeOf: [],
-    },
+    },  // DataActivity Activity
     {
-        class: "withdraw_consent",
-        subclassOf: ["consent_activity", "control_activity", "activity"],
+        class: "PolicyChange",
+        subclassOf: ["DataActivity", "Activity"],
         attributeOf: [],
-    },
+    },  // PolicyChange DataActivity
+    {
+        class: "DataUse",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // DataUse DataActivity
+    {
+        class: "DataProtection",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // DataProtection DataActivity
+    {
+        class: "FPCollection",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // FPCollection DataActivity
+    {
+        class: "TPCollection",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // TPCollection DataActivity
+    {
+        class: "TPSharing",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // TPSharing DataActivity
+    {
+        class: "DataRetention",
+        subclassOf: ["DataActivity", "Activity"],
+        attributeOf: [],
+    },  // DataRetention DataActivity
+    {
+        class: "NotificationActivity",
+        subclassOf: ["Activity"],
+        attributeOf: [],
+    },  // NotificationActivity Activity
+    {
+        class: "FPNotification",
+        subclassOf: ["NotificationActivity", "Activity"],
+        attributeOf: [],
+    },  // FPNotification NotificationActivity
+    {
+        class: "UserNotification",
+        subclassOf: ["NotificationActivity", "Activity"],
+        attributeOf: [],
+    },  // UserNotification NotificationActivity
+    {
+        class: "DataControl",
+        subclassOf: ["Activity"],
+        attributeOf: [],
+    },  // DataControl Activity
+    {
+        class: "AdvertisingDataControl",
+        subclassOf: ["DataControl", "Activity"],
+        attributeOf: [],
+    },  // AdvertisingDataControl DataControl
+    {
+        class: "OptInOptOutControl",
+        subclassOf: ["DataControl", "Activity"],
+        attributeOf: [],
+    },  // OptInOptOutControl DataControl
 
-    // AGENTS
+// Agents
     {
-        class: "user",
-        subclassOf: ["agent"],
-        attributeOf: ["breach_activity", "give_consent", "withdraw_consent"],
-    },
+        class: "Agent",
+        subclassOf: [],
+        attributeOf: ["NotificationActivity", "Activity"],
+    },  // Agent Thing
     {
-        class: "first_party",
-        subclassOf: ["agent"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "User",
+        subclassOf: ["Agent"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "OptInOptOutControl", "AdvertisingDataControl", "DataControl", "UserNotification", "FPNotification", "FPCollection", "Activity"],
+    },  // User Agent
     {
-        class: "third_party",
-        subclassOf: ["agent"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "FirstParty",
+        subclassOf: ["Agent"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "UserNotification", "FPNotification", "DataBreachProcessing", "Activity"],
+    },  // FirstParty Agent
     {
-        class: "data_protection_officer",
-        subclassOf: ["agent"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "ThirdParty",
+        subclassOf: ["Agent"],
+        attributeOf: ["TPCollection", "TPSharing", "Activity"],
+    },  // ThirdParty Agent
 
-    // MECHANISMS
+// Data
     {
-        class: "on_website",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "Data",
+        subclassOf: [],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // Data Thing
     {
-        class: "via_postal_mail",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "PersonalData",
+        subclassOf: ["Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // PersonalData Data
     {
-        class: "via_sms",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "NonPersonalData",
+        subclassOf: ["Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // NonPersonalData Data
     {
-        class: "on_service",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "ServiceData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // ServiceData PersonalData
     {
-        class: "via_phone_call",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "FinancialData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // FinancialData PersonalData
     {
-        class: "in_privacy_policy",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "DeviceData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // DeviceData PersonalData
     {
-        class: "via_email",
-        subclassOf: ["notification_mechanism", "mechanism"],
-        attributeOf: ["breach_activity", "policy_change_activity"],
-    },
+        class: "ApplicationData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // ApplicationData PersonalData
+    {
+        class: "AccountData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // AccountData PersonalData
+    {
+        class: "TrackingData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // TrackingData PersonalData
+    {
+        class: "SensitiveData",
+        subclassOf: ["PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // SensitiveData PersonalData
+    {
+        class: "ReligionData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // ReligionData SensitiveData
+    {
+        class: "RacialData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // RacialData SensitiveData
+    {
+        class: "HealthData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // HealthData SensitiveData
+    {
+        class: "GenericData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // GenericData SensitiveData
+    {
+        class: "CrimeData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // CrimeData SensitiveData
+    {
+        class: "BiometricData",
+        subclassOf: ["SensitiveData", "PersonalData", "Data"],
+        attributeOf: ["OptInOptOutControl", "AdvertisingDataControl", "DataControl", "DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "DataBreachProcessing"],
+    },  // BiometricData SensitiveData
 
-    // CONSEQUENCES
+// Mechanisms
     {
-        class: "remove_compromised_information",
-        subclassOf: ["breach_consequence", "consequence"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "Mechanism",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Mechanism Thing
     {
-        class: "compensation",
-        subclassOf: ["breach_consequence", "consequence"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "DataRetentionMechanism",
+        subclassOf: ["Mechanism"],
+        attributeOf: ["DataRetention"],
+    },  // DataRetentionMechanism Mechanism
     {
-        class: "breach_investigation",
-        subclassOf: ["breach_consequence", "consequence"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "StoreOnOwnServers",
+        subclassOf: ["DataRetentionMechanism", "Mechanism"],
+        attributeOf: ["DataRetention"],
+    },  // StoreOnOwnServers DataRetentionMechanism
     {
-        class: "no_service_restriction",
-        subclassOf: ["user_choice_consequence", "consequence"],
-        attributeOf: ["give_consent", "withdraw_consent"],
-    },
+        class: "StoreOnEmployedServers",
+        subclassOf: ["DataRetentionMechanism", "Mechanism"],
+        attributeOf: ["DataRetention"],
+    },  // StoreOnEmployedServers DataRetentionMechanism
     {
-        class: "service_partial_restriction",
-        subclassOf: ["user_choice_consequence", "consequence"],
-        attributeOf: ["give_consent", "withdraw_consent"],
-    },
+        class: "TPSharingAndCollectionCMechanism",
+        subclassOf: ["Mechanism"],
+        attributeOf: ["TPSharing", "TPCollection"],
+    },  // TPSharingAndCollectionCMechanism Mechanism
     {
-        class: "service_full_restriction",
-        subclassOf: ["user_choice_consequence", "consequence"],
-        attributeOf: ["give_consent", "withdraw_consent"],
-    },
+        class: "TPSharingOrCollectionByContract",
+        subclassOf: ["TPSharingAndCollectionCMechanism", "Mechanism"],
+        attributeOf: ["TPSharing", "TPCollection"],
+    },  // TPSharingOrCollectionByContract TPSharingAndCollectionCMechanism
+    {
+        class: "TPSharingOrCollectionForFree",
+        subclassOf: ["TPSharingAndCollectionCMechanism", "Mechanism"],
+        attributeOf: ["TPSharing", "TPCollection"],
+    },  // TPSharingOrCollectionForFree TPSharingAndCollectionCMechanism
+    {
+        class: "SecurityMechanism",
+        subclassOf: ["Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // SecurityMechanism Mechanism
+    {
+        class: "TechnicalSecurityMeasure",
+        subclassOf: ["SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // TechnicalSecurityMeasure SecurityMechanism
+    {
+        class: "PseudoAnonymization",
+        subclassOf: ["TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // PseudoAnonymization TechnicalSecurityMeasure
+    {
+        class: "Encryption",
+        subclassOf: ["TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // Encryption TechnicalSecurityMeasure
+    {
+        class: "SecureStorage",
+        subclassOf: ["Encryption", "TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // SecureStorage Encryption
+    {
+        class: "SecuredCommunication",
+        subclassOf: ["Encryption", "TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // SecuredCommunication Encryption
+    {
+        class: "Firewall",
+        subclassOf: ["TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // Firewall TechnicalSecurityMeasure
+    {
+        class: "AccessControls",
+        subclassOf: ["TechnicalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // AccessControls TechnicalSecurityMeasure
+    {
+        class: "OrganizationalSecurityMeasure",
+        subclassOf: ["SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // OrganizationalSecurityMeasure SecurityMechanism
+    {
+        class: "LockedOffice",
+        subclassOf: ["OrganizationalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // LockedOffice OrganizationalSecurityMeasure
+    {
+        class: "SecurityTraining",
+        subclassOf: ["OrganizationalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // SecurityTraining OrganizationalSecurityMeasure
+    {
+        class: "UserMaintainsSecurity",
+        subclassOf: ["OrganizationalSecurityMeasure", "SecurityMechanism", "Mechanism"],
+        attributeOf: ["DataProtection"],
+    },  // UserMaintainsSecurity OrganizationalSecurityMeasure
+    {
+        class: "CommunicationMechanism",
+        subclassOf: ["Mechanism"],
+        attributeOf: ["NotificationActivity"],
+    },  // CommunicationMechanism Mechanism
+    {
+        class: "UserSpecificCommunicationMechanism",
+        subclassOf: ["CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // UserSpecificCommunicationMechanism CommunicationMechanism
+    {
+        class: "AutomaticCommunicationMechanism",
+        subclassOf: ["UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // AutomaticCommunicationMechanism UserSpecificCommunicationMechanism
+    {
+        class: "ViaServiceApp",
+        subclassOf: ["AutomaticCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // ViaServiceApp AutomaticCommunicationMechanism
+    {
+        class: "ViaWebsite",
+        subclassOf: ["AutomaticCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // ViaWebsite AutomaticCommunicationMechanism
+    {
+        class: "ManualCommunicationMechanism",
+        subclassOf: ["UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // ManualCommunicationMechanism UserSpecificCommunicationMechanism
+    {
+        class: "WebsiteForm",
+        subclassOf: ["ManualCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // WebsiteForm ManualCommunicationMechanism
+    {
+        class: "ServiceAppForm",
+        subclassOf: ["ManualCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // ServiceAppForm ManualCommunicationMechanism
+    {
+        class: "DataProvision",
+        subclassOf: ["ManualCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // DataProvision ManualCommunicationMechanism
+    {
+        class: "PersonalVisit",
+        subclassOf: ["ManualCommunicationMechanism", "UserSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["UserNotification", "FPCollection"],
+    },  // PersonalVisit ManualCommunicationMechanism
+    {
+        class: "GeneralCommunicationMechanism",
+        subclassOf: ["CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification", "UserNotification", "FPCollection", "NotificationActivity"],
+    },  // GeneralCommunicationMechanism CommunicationMechanism
+    {
+        class: "Email",
+        subclassOf: ["GeneralCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification", "UserNotification", "FPCollection", "NotificationActivity"],
+    },  // Email GeneralCommunicationMechanism
+    {
+        class: "PostalMail",
+        subclassOf: ["GeneralCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification", "UserNotification", "FPCollection", "NotificationActivity"],
+    },  // PostalMail GeneralCommunicationMechanism
+    {
+        class: "PhoneCall",
+        subclassOf: ["GeneralCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification", "UserNotification", "FPCollection", "NotificationActivity"],
+    },  // PhoneCall GeneralCommunicationMechanism
+    {
+        class: "SMS",
+        subclassOf: ["GeneralCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification", "UserNotification", "FPCollection", "NotificationActivity"],
+    },  // SMS GeneralCommunicationMechanism
+    {
+        class: "FPSpecificCommunicationMechanism",
+        subclassOf: ["CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification"],
+    },  // FPSpecificCommunicationMechanism CommunicationMechanism
+    {
+        class: "OnWebsitePage",
+        subclassOf: ["FPSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification"],
+    },  // OnWebsitePage FPSpecificCommunicationMechanism
+    {
+        class: "OnServiceApp",
+        subclassOf: ["FPSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification"],
+    },  // OnServiceApp FPSpecificCommunicationMechanism
+    {
+        class: "InPrivacyPolicy",
+        subclassOf: ["FPSpecificCommunicationMechanism", "CommunicationMechanism", "Mechanism"],
+        attributeOf: ["FPNotification"],
+    },  // InPrivacyPolicy FPSpecificCommunicationMechanism
 
-    // CAUSES
+// Modes
     {
-        class: "force_majeur",
-        subclassOf: ["breach_cause", "cause"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "Mode",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Mode Thing
     {
-        class: "intentional",
-        subclassOf: ["breach_cause", "cause"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "DataTransmissionMode",
+        subclassOf: ["Mode"],
+        attributeOf: ["FPCollection", "TPCollection", "TPSharing"],
+    },  // DataTransmissionMode Mode
     {
-        class: "unintentional",
-        subclassOf: ["breach_cause", "cause"],
-        attributeOf: ["breach_activity"],
-    },
+        class: "PermanentTransmission",
+        subclassOf: ["DataTransmissionMode", "Mode"],
+        attributeOf: ["FPCollection", "TPCollection", "TPSharing"],
+    },  // PermanentTransmission DataTransmissionMode
     {
-        class: "other",
-        subclassOf: ["policy_change_cause", "cause"],
-        attributeOf: ["policy_change_activity"],
-    },
-    {
-        class: "privacy_related",
-        subclassOf: ["policy_change_cause", "cause"],
-        attributeOf: ["policy_change_activity"],
-    },
-    {
-        class: "non_privacy_related",
-        subclassOf: ["policy_change_cause", "cause"],
-        attributeOf: ["policy_change_activity"],
-    },
-    {
-        class: "marge_acquisition",
-        subclassOf: ["policy_change_cause", "cause"],
-        attributeOf: ["policy_change_activity"],
-    },
+        class: "TransmissionByRequest",
+        subclassOf: ["DataTransmissionMode", "Mode"],
+        attributeOf: ["FPCollection", "TPCollection", "TPSharing"],
+    },  // TransmissionByRequest DataTransmissionMode
 
-    // USER CATEGORY
+// Causes
     {
-        class: "user_special_category",
-        subclassOf: ["category"],
-        attributeOf: ["user"],
-    },
+        class: "Cause",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Cause Thing
+    {
+        class: "DataBreach",
+        subclassOf: ["Cause"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // DataBreach Cause
+    {
+        class: "ForceMajeurIncident",
+        subclassOf: ["DataBreach", "Cause"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // ForceMajeurIncident DataBreach
+    {
+        class: "IntentionalBreach",
+        subclassOf: ["DataBreach", "Cause"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // IntentionalBreach DataBreach
+    {
+        class: "UnintentionalBreach",
+        subclassOf: ["DataBreach", "Cause"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // UnintentionalBreach DataBreach
+    {
+        class: "PolicyChangeCause",
+        subclassOf: ["Cause"],
+        attributeOf: ["PolicyChange"],
+    },  // PolicyChangeCause Cause
+    {
+        class: "PrivacyRelatedCause",
+        subclassOf: ["PolicyChangeCause", "Cause"],
+        attributeOf: ["PolicyChange"],
+    },  // PrivacyRelatedCause PolicyChangeCause
+    {
+        class: "NonPrivacyRelatedCause",
+        subclassOf: ["PolicyChangeCause", "Cause"],
+        attributeOf: ["PolicyChange"],
+    },  // NonPrivacyRelatedCause PolicyChangeCause
+    {
+        class: "MergeAcquisitionCause",
+        subclassOf: ["PolicyChangeCause", "Cause"],
+        attributeOf: ["PolicyChange"],
+    },  // MergeAcquisitionCause PolicyChangeCause
 
-    // POLICY SCOPE
+// Consequences
     {
-        class: "policy_scope_change",
-        subclassOf: ["scope"],
-        attributeOf: ["policy_change_activity"],
-    },
+        class: "Consequence",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Consequence Thing
+    {
+        class: "DataBreachConsequence",
+        subclassOf: ["Consequence"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // DataBreachConsequence Consequence
+    {
+        class: "RemoveCompromisedInformation",
+        subclassOf: ["DataBreachConsequence", "Consequence"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // RemoveCompromisedInformation DataBreachConsequence
+    {
+        class: "DataBreachCompensation",
+        subclassOf: ["DataBreachConsequence", "Consequence"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // DataBreachCompensation DataBreachConsequence
+    {
+        class: "PolicyChangeConsequence",
+        subclassOf: ["Consequence"],
+        attributeOf: ["PolicyChange"],
+    },  // PolicyChangeConsequence Consequence
+    {
+        class: "UserChoiceConsequence",
+        subclassOf: ["Consequence"],
+        attributeOf: ["PrivacyControl", "OptInOptOutControl"],
+    },  // UserChoiceConsequence Consequence
+    {
+        class: "NoServiceRestriction",
+        subclassOf: ["UserChoiceConsequence", "Consequence"],
+        attributeOf: ["PrivacyControl", "OptInOptOutControl"],
+    },  // NoServiceRestriction UserChoiceConsequence
+    {
+        class: "PartialServiceRestriction",
+        subclassOf: ["UserChoiceConsequence", "Consequence"],
+        attributeOf: ["PrivacyControl", "OptInOptOutControl"],
+    },  // PartialServiceRestriction UserChoiceConsequence
+    {
+        class: "FullServiceRestriction",
+        subclassOf: ["UserChoiceConsequence", "Consequence"],
+        attributeOf: ["PrivacyControl", "OptInOptOutControl"],
+    },  // FullServiceRestriction UserChoiceConsequence
 
-    // TIME
+// Purposes
     {
-        class: "breach_investigation_time",
-        subclassOf: ["time_period"],
-        attributeOf: ["breach_investigation"],
-    },
+        class: "Purpose",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Purpose Thing
     {
-        class: "policy_acceptance_time",
-        subclassOf: ["time_period"],
-        attributeOf: ["policy_scope_change"],
-    },
+        class: "DataActivityPurpose",
+        subclassOf: ["Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // DataActivityPurpose Purpose
+    {
+        class: "LegalCompliancePurpose",
+        subclassOf: ["DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // LegalCompliancePurpose DataActivityPurpose
+    {
+        class: "ServiceProvisionPurpose",
+        subclassOf: ["DataActivityPurpose", "Purpose"],
+        attributeOf: ["Activity"],
+    },  // ServiceProvisionPurpose DataActivityPurpose
+    {
+        class: "HealthMonitoringPurpose",
+        subclassOf: ["ServiceProvisionPurpose", "DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // HealthMonitoringPurpose ServiceProvisionPurpose
+    {
+        class: "ServiceEnhancementPurpose",
+        subclassOf: ["DataActivityPurpose", "Purpose"],
+        attributeOf: ["Activity"],
+    },  // ServiceEnhancementPurpose DataActivityPurpose
+    {
+        class: "AnalyticsPurpose",
+        subclassOf: ["ServiceEnhancementPurpose", "DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // AnalyticsPurpose ServiceEnhancementPurpose
+    {
+        class: "SecurityPurpose",
+        subclassOf: ["ServiceEnhancementPurpose", "DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // SecurityPurpose ServiceEnhancementPurpose
+    {
+        class: "ResearchPurpose",
+        subclassOf: ["ServiceEnhancementPurpose", "DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // ResearchPurpose ServiceEnhancementPurpose
+    {
+        class: "MarketingPurpose",
+        subclassOf: ["ServiceEnhancementPurpose", "DataActivityPurpose", "Purpose"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // MarketingPurpose ServiceEnhancementPurpose
+
+// Time periods
+    {
+        class: "TimePeriod",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // TimePeriod Thing
+    {
+        class: "DataRetentionTime",
+        subclassOf: ["TimePeriod"],
+        attributeOf: ["DataRetention"],
+    },  // DataRetentionTime TimePeriod
+    {
+        class: "NotificationTime",
+        subclassOf: ["TimePeriod"],
+        attributeOf: ["FPNotification", "UserNotification", "NotificationActivity"],
+    },  // NotificationTime TimePeriod
+    {
+        class: "DataBreachProcessingTime",
+        subclassOf: ["TimePeriod"],
+        attributeOf: ["DataBreachProcessing"],
+    },  // DataBreachProcessingTime TimePeriod
+    {
+        class: "PolicyAcceptanceTime",
+        subclassOf: ["TimePeriod"],
+        attributeOf: ["PolicyChange"],
+    },  // PolicyAcceptanceTime TimePeriod
+
+// Basis
+    {
+        class: "Basis",
+        subclassOf: [],
+        attributeOf: ["Activity"],
+    },  // Basis Thing
+    {
+        class: "LegalBasis",
+        subclassOf: ["Basis"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // LegalBasis Basis
+
+// Policy change scope
+    {
+        class: "PolicyChangeScope",
+        subclassOf: [],
+        attributeOf: ["PolicyChange"],
+    },  // PolicyChangeScope Thing
+
+// User special category
+    {
+        class: "UserSpecialCategory",
+        subclassOf: [],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // UserSpecialCategory Thing
+    {
+        class: "EuropeanResident",
+        subclassOf: ["UserSpecialCategory"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // EuropeanResident UserSpecialCategory
+    {
+        class: "CaliforniaResident",
+        subclassOf: ["UserSpecialCategory"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // CaliforniaResident UserSpecialCategory
+    {
+        class: "RussianFederationResident",
+        subclassOf: ["UserSpecialCategory"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // RussianFederationResident UserSpecialCategory
+    {
+        class: "ChildCategory",
+        subclassOf: ["UserSpecialCategory"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
+    },  // ChildCategory UserSpecialCategory
+
 ]
 
 export default META_LAYERS;
