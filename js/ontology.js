@@ -96,7 +96,7 @@ const META_LAYERS = [
     {
         class: "FirstParty",
         subclassOf: ["Agent"],
-        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "UserNotification", "FPNotification", "DataBreachProcessing", "Activity"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "DataActivity", "PolicyChange", "UserNotification", "FPNotification", "DataBreachProcessing", "Activity"],
     },  // FirstParty Agent
     {
         class: "ThirdParty",
@@ -513,7 +513,7 @@ const META_LAYERS = [
     {
         class: "ServiceProvisionPurpose",
         subclassOf: ["DataActivityPurpose", "Purpose"],
-        attributeOf: ["Activity"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
     },  // ServiceProvisionPurpose DataActivityPurpose
     {
         class: "HealthMonitoringPurpose",
@@ -523,7 +523,7 @@ const META_LAYERS = [
     {
         class: "ServiceEnhancementPurpose",
         subclassOf: ["DataActivityPurpose", "Purpose"],
-        attributeOf: ["Activity"],
+        attributeOf: ["DataUse", "DataProtection", "FPCollection", "TPCollection", "TPSharing", "DataRetention", "PolicyChange", "DataActivity"],
     },  // ServiceEnhancementPurpose DataActivityPurpose
     {
         class: "AnalyticsPurpose",
